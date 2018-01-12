@@ -44,3 +44,4 @@ class comments(models.Model):
     content = models.TextField('评论')
     date = models.DateTimeField('评论时间', auto_now_add=True)
     movie = models.ForeignKey(movies, related_name='moviecomments', on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey('auth.User', related_name='comments', on_delete=models.CASCADE)

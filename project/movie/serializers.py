@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from movie.models import movies, comments
@@ -11,5 +12,12 @@ class moviesserializers(serializers.ModelSerializer):
 class commentsserializers(serializers.ModelSerializer):
     class Meta:
         model = comments
-        fields = ('content','date','movie',)
+        fields = ('content','date','movie','owner')
 
+    owner = serializers.ReadOnlyField(source='owner.username')
+
+class Userserializers(serializers.ModelSerializer):
+    comments = serializers.PrimaryKeyRelatedField(many=True, queryset=comments.objects.all())
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'comments')
